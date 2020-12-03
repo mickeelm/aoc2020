@@ -3,35 +3,30 @@ fun multiplyTreeEncounters(input: List<String>, directions: List<Pair<Int, Int>>
         .map { (right, down) -> countTreeEncounters(input, right, down).toLong() }
         .reduce { part, count -> part * count }
 
-fun countTreeEncounters(input: List<String>, right: Int, down: Int): Int {
+fun countTreeEncounters(input: List<String>, rightStep: Int, downStep: Int): Int {
     val treePoints = treePoints(input)
-    val (width, height) = input.let { Pair(it.first().length, it.size) }
-    val reducedTraversalPoints = reducedTraversalPoints(width, height, right, down)
+    val (rows, cols) = input.let { Pair(it.size, it.first().length) }
+    val reducedTraversalPoints = reducedTraversalPoints(rows, cols, rightStep, downStep)
 
     return reducedTraversalPoints.count { it in treePoints }
 }
 
-private fun treePoints(input: List<String>): List<Pair<Int, Int>> = ArrayList<Pair<Int, Int>>().apply {
-    input.forEachIndexed { rowIndex, row ->
-        row.forEachIndexed { colIndex, symbol ->
+private fun treePoints(input: List<String>): List<Coordinate> = ArrayList<Coordinate>().apply {
+    input.forEachIndexed { row, symbols ->
+        symbols.forEachIndexed { col, symbol ->
             if (symbol == '#') {
-                add(Pair(rowIndex, colIndex))
+                add(Coordinate(row, col))
             }
         }
     }
 }
 
-private fun reducedTraversalPoints(width: Int, height: Int, right: Int, down: Int): Sequence<Pair<Int, Int>> =
+private fun reducedTraversalPoints(rows: Int, cols: Int, rightStep: Int, downStep: Int): Sequence<Coordinate> =
     sequence {
-        var currentRow = 0
-        var currentCol = 0
-
-        while (currentRow < height - 1) {
-            currentRow += down
-            currentCol += right
-            val reducedRow = currentRow.rem(height)
-            val reducedCol = currentCol.rem(width)
-
-            yield(Pair(reducedRow, reducedCol))
+        val steps = (rows - 1) / downStep
+        (1..steps).map {
+            val row = (it * downStep).rem(rows)
+            val col = (it * rightStep).rem(cols)
+            yield(Coordinate(row, col))
         }
     }
