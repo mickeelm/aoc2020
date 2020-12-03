@@ -1,11 +1,11 @@
-fun multiplyTreeEncounters(input: List<String>, directions: List<Pair<Int, Int>>): Long =
+fun multiplyTreeEncounters(input: List<String>, directions: List<Coordinate>): Long =
     directions
         .map { (right, down) -> countTreeEncounters(input, right, down).toLong() }
         .reduce { part, count -> part * count }
 
 fun countTreeEncounters(input: List<String>, rightStep: Int, downStep: Int): Int {
     val treePoints = treePoints(input)
-    val (rows, cols) = input.let { Pair(it.size, it.first().length) }
+    val (rows, cols) = input.let { Coordinate(it.size, it.first().length) }
     val reducedTraversalPoints = reducedTraversalPoints(rows, cols, rightStep, downStep)
 
     return reducedTraversalPoints.count { it in treePoints }
