@@ -1,4 +1,4 @@
-fun sumTreeEncounters(input: List<String>, directions: List<Pair<Int, Int>>): Long =
+fun multiplyTreeEncounters(input: List<String>, directions: List<Pair<Int, Int>>): Long =
     directions
         .map { (right, down) -> countTreeEncounters(input, right, down).toLong() }
         .reduce { part, count -> part * count }
