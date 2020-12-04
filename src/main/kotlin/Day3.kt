@@ -1,6 +1,6 @@
 fun multiplyTreeEncounters(input: List<String>, directions: List<Coordinate>): Long =
     directions
-        .map { (right, down) -> countTreeEncounters(input, right, down).toLong() }
+        .map { (rightStep, downStep) -> countTreeEncounters(input, rightStep, downStep).toLong() }
         .reduce { part, count -> part * count }
 
 fun countTreeEncounters(input: List<String>, rightStep: Int, downStep: Int): Int {
