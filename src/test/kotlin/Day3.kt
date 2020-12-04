@@ -24,10 +24,10 @@ internal class Day3 {
     }
 
     private fun directions() = listOf(
-        Pair(1, 1),
-        Pair(3, 1),
-        Pair(5, 1),
-        Pair(7, 1),
-        Pair(1, 2)
+        Coordinate(1, 1),
+        Coordinate(3, 1),
+        Coordinate(5, 1),
+        Coordinate(7, 1),
+        Coordinate(1, 2)
     )
 }
