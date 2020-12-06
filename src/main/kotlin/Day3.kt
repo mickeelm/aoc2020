@@ -1,3 +1,5 @@
+typealias Coordinate = Pair<Int, Int>
+
 fun multiplyTreeEncounters(input: List<String>, directions: List<Coordinate>): Long =
     directions
         .map { (rightStep, downStep) -> countTreeEncounters(input, rightStep, downStep).toLong() }
