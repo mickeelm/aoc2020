@@ -15,7 +15,7 @@ fun bagColorsEventuallyContaining(input: Sequence<String>, color: String): Int =
 fun bagsRequiredFor(input: Sequence<String>, color: String): Int =
     input.toBagPolicies().run {
         fun recursiveCount(policy: BagPolicy): Int =
-            policy.map { it.count + it.count * recursiveCount(getValue(it.color)) }.sum()
+            policy.sumOf { it.count + it.count * recursiveCount(getValue(it.color)) }
 
         recursiveCount(getValue(color))
     }
