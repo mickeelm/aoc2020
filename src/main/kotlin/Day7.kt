@@ -3,16 +3,16 @@ typealias BagPolicy = Set<BagCount>
 
 val noise = setOf("bags", "contain", "bag,", "bag.", "bags,", "bags.", "no", "other")
 
-fun bagColorsEventuallyContaining(input: Sequence<String>, color: String): Int =
+fun numberOfBagColorsEventuallyContaining(input: Sequence<String>, color: String): Int =
     input.toBagPolicies().run {
-        fun recursiveCount(color: String, policy: BagPolicy): Boolean =
+        fun containsColorEventually(policy: BagPolicy): Boolean =
             policy.any { it.color == color } or
-            policy.any { recursiveCount(color, getValue(it.color)) }
+            policy.any { containsColorEventually(getValue(it.color)) }
 
-        values.count { recursiveCount(color, it) }
+        values.count { containsColorEventually(it) }
     }
 
-fun bagsRequiredFor(input: Sequence<String>, color: String): Int =
+fun numberOfBagsRequiredFor(input: Sequence<String>, color: String): Int =
     input.toBagPolicies().run {
         fun recursiveCount(policy: BagPolicy): Int =
             policy.sumOf { it.count + it.count * recursiveCount(getValue(it.color)) }
