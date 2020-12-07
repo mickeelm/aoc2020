@@ -5,19 +5,19 @@ val noise = setOf("bags", "contain", "bag,", "bag.", "bags,", "bags.", "no", "ot
 
 fun bagColorsEventuallyContaining(input: Sequence<String>, color: String): Int =
     input.toBagPolicies().run {
-        fun recursiveCount(color: String, policy: BagPolicy, policies: Map<String, BagPolicy>): Boolean =
+        fun recursiveCount(color: String, policy: BagPolicy): Boolean =
             policy.any { it.color == color } or
-            policy.any { recursiveCount(color, policies.getValue(it.color), policies) }
+            policy.any { recursiveCount(color, getValue(it.color)) }
 
-        values.count { recursiveCount(color, it, this) }
+        values.count { recursiveCount(color, it) }
     }
 
 fun bagsRequiredFor(input: Sequence<String>, color: String): Int =
     input.toBagPolicies().run {
-        fun recursiveCount(policy: BagPolicy, policies: Map<String, BagPolicy>): Int =
-            policy.map { it.count + it.count * recursiveCount(policies.getValue(it.color), policies) }.sum()
+        fun recursiveCount(policy: BagPolicy): Int =
+            policy.map { it.count + it.count * recursiveCount(getValue(it.color)) }.sum()
 
-        recursiveCount(getValue(color), this)
+        recursiveCount(getValue(color))
     }
 
 private fun Sequence<String>.toBagPolicies(): Map<String, BagPolicy> =
