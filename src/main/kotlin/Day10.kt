@@ -12,7 +12,7 @@ fun distinctArrangements(input: List<Long>) =
             val joltage = lookAhead.removeFirst()
             map.apply {
                 if (lookAhead.isEmpty()) return@fold map
-                    val pathsToCurrent = map.removeOrDefault(joltage, 1)
+                val pathsToCurrent = map.removeOrDefault(joltage, 1)
                 lookAhead.filter { it <= joltage + 3 }.forEach { map.increase(it, pathsToCurrent) }
             }
         }).values.first()
