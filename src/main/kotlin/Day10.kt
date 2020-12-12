@@ -12,13 +12,17 @@ fun distinctArrangements(input: List<Long>) =
             val joltage = lookAhead.removeFirst()
             map.apply {
                 if (lookAhead.isEmpty()) return@fold map
-                val paths = map.remove(joltage) ?: 1
-                lookAhead.filter { it <= joltage + 3 }.forEach {
-                    val currentValue = map.remove(it) ?: 0
-                    map[it] = currentValue + paths
-                }
+                    val pathsToCurrent = map.removeOrDefault(joltage, 1)
+                lookAhead.filter { it <= joltage + 3 }.forEach { map.increase(it, pathsToCurrent) }
             }
         }).values.first()
+
+private fun HashMap<Long, Long>.removeOrDefault(key: Long, default: Long): Long = remove(key) ?: default
+
+private fun HashMap<Long, Long>.increase(key: Long, increment: Long) {
+    val currentValue = this[key] ?: 0
+    this[key] = currentValue + increment
+}
 
 private fun sortAndAddEnds(input: List<Long>): List<Long> =
     input.sorted().toMutableList().apply { add(0, 0); add(last() + 3) }
